@@ -26,7 +26,7 @@ class Week:
         self.changed = False
 
     def processLine(self, line):
-        m = re.search('^([^ ]+) <.([^ ]+)> status: (.+)', line)
+        m = re.search('^([^ ]+) <.([^ ]+)> status. (.+)', line)
         if m != None:
             [strdate, nick, status] = m.groups()
             date = copy.copy(self.date)
