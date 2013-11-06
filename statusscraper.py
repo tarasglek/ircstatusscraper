@@ -2,6 +2,7 @@
 import inotifyx, re, sys, copy, os.path
 import time
 import json
+import subprocess
 """
 TODO: 
 * Add bugzilla status
@@ -26,9 +27,9 @@ class Week:
         self.changed = False
 
     def processLine(self, line):
-        m = re.search('^([^ ]+) <.([^ ]+)> status. (.+)', line)
+        m = re.search('^([^ ]+) <.([^ ]+)> (rogerroger|status). (.+)', line)
         if m != None:
-            [strdate, nick, status] = m.groups()
+            [strdate, nick, botname, status] = m.groups()
             date = copy.copy(self.date)
             date.insert(2, strdate)
             strdate = " ".join(date)
@@ -40,6 +41,12 @@ class Week:
                 self.nicks[nick] = [update]
             print [nick, status]
             self.changed = True
+            subprocess.call(["/home/taras/work/standup/scripts/standup-cmd",
+                             "localhost:5000",
+                             "1234",
+                             nick,
+                             "perf",
+                             status])
             return True
         m = re.search('^--- (Log opened|Day changed) [^ ]+ (.+)', line)
         if m != None:
