@@ -43,7 +43,7 @@ function got_week(data) {
     $("<tr><td></td></tr>").appendTo(table)
   }
   body.append(table)
-  $.ajax({url: "nicks.json"}).done(nickify)
+  $.ajax({url: "nicks.json", dataType: 'text'}).done(nickify)
 }
 
 function nickify(data) {
@@ -61,13 +61,13 @@ function nickify(data) {
                  })
 }
 
-$.ajax({url: "data/weeks.json"}).done(function ( data )
+$.ajax({url: "data/weeks.json", cache: false, dataType: 'text'}).done(function ( data )
                {
                  var weeks = JSON.parse(data);
                  console.log(weeks)
                  for (var i in weeks) {
                    console.log(weeks[i])
-                   var fname = "data/" + weeks[i]+".json"
-                   $.ajax({url: fname}).done(got_week);
+                   var fname = "data/" + weeks[i]+".json";
+                   $.ajax({url: fname,cache: false, dataType: 'text',}).done(got_week);
                  }
                });
